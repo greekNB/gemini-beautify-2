@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini Beautify</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 320px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+      padding: 16px;
+    }
+
+    h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 16px;
+    }
+
+    /* 预设背景网格 */
+    .presets-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 8px;
+    }
+
+    .presets {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .preset-btn {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      background-size: cover;
+      background-position: center;
+      transition: border-color 0.2s, transform 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preset-btn:hover { transform: scale(1.04); }
+
+    .preset-btn.active {
+      border-color: #60a5fa;
+    }
+
+    .preset-btn span {
+      position: absolute;
+      bottom: 3px;
+      left: 0; right: 0;
+      text-align: center;
+      font-size: 10px;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    }
+
+    /* 分割线 */
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin: 12px 0;
+    }
+
+    /* 自定义 URL */
+    .section-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 6px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 8px 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 12px;
+      outline: none;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"]::placeholder { color: rgba(255,255,255,0.3); }
+    input[type="text"]:focus { border-color: #60a5fa; }
+
+    /* 文件上传 */
+    .upload-btn {
+      display: block;
+      width: 100%;
+      padding: 8px;
+      background: rgba(255,255,255,0.08);
+      border: 1px dashed rgba(255,255,255,0.25);
+      border-radius: 8px;
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 8px;
+      transition: background 0.2s;
+    }
+    .upload-btn:hover { background: rgba(255,255,255,0.14); }
+
+    input[type="file"] { display: none; }
+
+    /* 操作按钮 */
+    .btn-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-apply  { background: #3b82f6; color: #fff; }
+    .btn-clear  { background: rgba(255,255,255,0.1); color: #fff; }
+
+    /* 当前背景预览 */
+    #preview {
+      width: 100%;
+      aspect-ratio: 16/6;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.05);
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.3);
+      font-size: 12px;
+    }
+
+    .status {
+      font-size: 11px;
+      color: #4ade80;
+      text-align: center;
+      min-height: 16px;
+      margin-top: 8px;
+    }
+
+    /* 滑块 */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .slider-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      white-space: nowrap;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(to right, rgba(255,255,255,0.15), rgba(255,255,255,0.5));
+      outline: none;
+      border: none !important;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #3b82f6;
+      cursor: pointer;
+      box-shadow: 0 0 4px rgba(59,130,246,0.6);
+    }
+    
+    .slider-value-row {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🌌 Gemini Beautify</h2>
+  <p class="subtitle">自定义背景 · 毛玻璃效果</p>
+
+  <!-- 当前背景预览 -->
+  <div id="preview">暂无背景</div>
+
+  <!-- 预设背景 -->
+  <p class="presets-label">预设背景</p>
+  <div class="presets" id="presets"></div>
+
+  <hr class="divider">
+
+  <!-- 自定义图片 URL -->
+  <p class="section-label">📎 图片链接（URL）</p>
+  <input type="text" id="urlInput" placeholder="https://example.com/image.jpg">
+
+  <!-- 本地上传 -->
+  <p class="section-label">💾 上传本地图片</p>
+  <label class="upload-btn" for="fileInput">📁 点击选择图片文件</label>
+  <input type="file" id="fileInput" accept="image/*">
+
+  <!-- 遮罩透明度滑块 -->
+  <p class="section-label">🌓 遮罩深度</p>
+  <div class="slider-row">
+    <span class="slider-label">透明</span>
+    <input type="range" id="opacitySlider" min="0" max="80" value="50" step="5">
+    <span class="slider-label">深色</span>
+  </div>
+  <div class="slider-value-row">
+    <span id="opacityValue">50%</span>
+  </div>
+
+  <!-- 按钮 -->
+  <div class="btn-row">
+    <button class="btn btn-apply" id="applyBtn">✓ 应用背景</button>
+    <button class="btn btn-clear" id="clearBtn">✕ 清除背景</button>
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

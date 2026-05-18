@@ -1,0 +1,187 @@
+/* =============================================
+   GEMINI BEAUTIFY v5 — 精准修复版
+   ============================================= */
+
+/* ── 1. 背景图放在 html ── */
+html {
+  background-image: var(--gb-bg-image, none) !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
+  background-color: #111 !important;
+}
+
+body {
+  background: transparent !important;
+}
+
+/* ── 2. 遮罩：用独立注入的 div，避免伪元素层级问题 ──
+   通过 content.js 注入，不用 CSS 伪元素              */
+
+/* ── 3. 只透明化顶层容器，不动内部布局元素 ── */
+bard-app {
+  background: transparent !important;
+}
+
+bard-root {
+  background: transparent !important;
+}
+
+/* Material Design 容器 */
+.mat-drawer-container,
+.mat-sidenav-container {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.mat-drawer-content,
+.mat-sidenav-content {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Gemini 主内容区 */
+bard-sidenav-content,
+bard-main-content {
+  background: transparent !important;
+}
+
+/* ── 4. 侧边栏透明 ── */
+bard-sidenav,
+mat-sidenav,
+.mat-drawer {
+  background: transparent !important;
+}
+
+/* ── 5. 去掉所有黑色横线/分割线 ── */
+hr,
+[class*="divider"],
+[class*="separator"],
+[class*="horizontal-line"] {
+  display: none !important;
+}
+
+/* ── 6. 白色文字（精准选择，不影响布局） ── */
+p, span, h1, h2, h3, h4, h5, h6,
+li, td, th, label {
+  color: #ffffff !important;
+}
+
+/* Gemini 特定文字元素 */
+.ql-editor,
+rich-textarea,
+message-content,
+model-response,
+[class*="message-content"],
+[class*="response-text"] {
+  color: #ffffff !important;
+}
+
+a { color: #93c5fd !important; }
+
+/* ── 7. 代码块 ── */
+code, pre {
+  background: rgba(0, 0, 0, 0.40) !important;
+  border: 1px solid rgba(255,255,255,0.15) !important;
+  color: #e2e8f0 !important;
+  border-radius: 6px !important;
+}
+
+/* ── 8. 占位文字 ── */
+::placeholder { color: rgba(255,255,255,0.40) !important; }
+.ql-editor.ql-blank::before { color: rgba(255,255,255,0.40) !important; }
+
+/* ── 9. 滚动条 ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.20);
+  border-radius: 3px;
+}
+/* ── 修复：侧栏链接变回白色 ── */
+bard-sidenav a,
+mat-sidenav a,
+.mat-drawer a,
+[class*="sidenav"] a,
+[class*="side-nav"] a,
+[class*="nav-item"] a,
+[class*="conversation-item"] a,
+[class*="history"] a {
+  color: #ffffff !important;
+}
+
+/* 侧栏链接悬浮时稍微亮一点 */
+bard-sidenav a:hover,
+mat-sidenav a:hover,
+[class*="sidenav"] a:hover {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+
+/* 只保留真正需要的 border（输入框等） */
+.ql-container,
+rich-textarea,
+[class*="input-area"],
+[class*="input-container"] {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* 只隐藏真正的分割线，不用 display:none */
+hr {
+  border: none !important;
+  background: transparent !important;
+  height: 0 !important;
+}
+
+/* Gemini 特有的分隔 shadow/border */
+[class*="footer"],
+[class*="bottom-bar"] {
+  border-top: none !important;
+  box-shadow: none !important;
+}
+/* ── 修复：消灭输入框上方横线 ── */
+[class*="input-area-container"],
+[class*="input-footer"],
+[class*="bottom"],
+[class*="footer-container"],
+[class*="prompt-wrapper"],
+[class*="input-wrapper"] {
+  border-top: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* 针对 Gemini 输入区域上边的那条线 */
+.input-area-container::before,
+.input-area-container::after,
+[class*="input"]::before,
+[class*="input"]::after {
+  display: none !important;
+  border: none !important;
+}
+
+/* ── 修复：用户发送的消息文字可见 ── */
+/* 用户气泡 */
+user-query,
+[class*="user-query"],
+[class*="user-message"],
+[class*="human-turn"],
+[class*="query-text"],
+[class*="request-content"] {
+  color: #ffffff !important;
+}
+
+/* 用户气泡容器背景透明（防止黑字在深背景） */
+user-query *,
+[class*="user-query"] *,
+[class*="human-turn"] * {
+  color: #ffffff !important;
+}
+
+/* ── 修复：强制所有文字白色（补漏网之鱼） ── */
+[class*="turn"],
+[class*="turn"] * {
+  color: #ffffff !important;
+}
