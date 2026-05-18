@@ -58,6 +58,15 @@ function applyBackground(imageUrl) {
 
   // 确保遮罩存在
   ensureOverlay();
+
+  // 在 applyBackground 函数末尾加（ensureOverlay() 下方）
+chrome.storage.local.get(['sidenavOpacity'], (result) => {
+  const alpha = result.sidenavOpacity !== undefined ? result.sidenavOpacity : 0.35;
+  document.documentElement.style.setProperty(
+    '--gb-sidenav-bg',
+    `rgba(0, 0, 0, ${alpha})`
+  );
+});
 }
 
 // ── 初始化 ──
@@ -84,6 +93,15 @@ chrome.runtime.onMessage.addListener((message) => {
       overlay.style.setProperty('background', `rgba(0, 0, 0, ${message.alpha})`, 'important');
     }
   }
+
+  if (message.type === 'SET_SIDENAV_OPACITY') {
+    // 用 CSS 变量控制侧栏背景色
+    document.documentElement.style.setProperty(
+      '--gb-sidenav-bg',
+      `rgba(0, 0, 0, ${message.alpha})`
+    );
+  }
+
 });
 
 // ── 监听 SPA 路由切换，重新注入遮罩 ──

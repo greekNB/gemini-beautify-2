@@ -19,6 +19,8 @@ const PRESETS = [
   const status           = document.getElementById('status');
   const opacitySlider = document.getElementById('opacitySlider');
   const opacityValue  = document.getElementById('opacityValue');
+  const sidenavSlider = document.getElementById('sidenavSlider');
+  const sidenavValue  = document.getElementById('sidenavValue');
   
   let currentUrl = '';
   
@@ -214,3 +216,33 @@ opacitySlider.addEventListener('input', () => {
       opacityValue.textContent = saved + '%';
     }
   });
+
+  // ── 侧栏透明度滑块 ──
+sidenavSlider.addEventListener('input', () => {
+  const val = sidenavSlider.value;
+  sidenavValue.textContent = val + '%';
+  const alpha = (val / 100).toFixed(2);
+  sendSidenavOpacity(alpha);
+});
+
+sidenavSlider.addEventListener('change', () => {
+  const alpha = (sidenavSlider.value / 100).toFixed(2);
+  chrome.storage.local.set({ sidenavOpacity: alpha });
+});
+
+function sendSidenavOpacity(alpha) {
+  chrome.tabs.query({ url: 'https://gemini.google.com/*' }, (tabs) => {
+    tabs.forEach(tab => {
+      chrome.tabs.sendMessage(tab.id, { type: 'SET_SIDENAV_OPACITY', alpha });
+    });
+  });
+}
+
+// 初始化读取侧栏透明度
+chrome.storage.local.get(['sidenavOpacity'], (result) => {
+  if (result.sidenavOpacity !== undefined) {
+    const saved = Math.round(result.sidenavOpacity * 100);
+    sidenavSlider.value = saved;
+    sidenavValue.textContent = saved + '%';
+  }
+});

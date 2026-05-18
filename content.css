@@ -185,3 +185,11 @@ user-query *,
 [class*="turn"] * {
   color: #ffffff !important;
 }
+
+/* ── 侧栏独立背景层 ── */
+bard-sidenav,
+mat-sidenav,
+.mat-drawer {
+  background: var(--gb-sidenav-bg, rgba(0, 0, 0, 0.35)) !important;
+  backdrop-filter: none !important;
+}
