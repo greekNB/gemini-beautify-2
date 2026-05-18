@@ -46,20 +46,15 @@
 
 <img width="2557" height="1437" alt="gemini-beautify-2 效果图" src="https://github.com/user-attachments/assets/100d285f-1c2b-484b-935f-30ec96338a8e" />
 
-## ✨ 功能特点
+## 
 
-- 🎨 自定义背景图片
-- ⚡ 即时预览效果
-- 💡 简洁易用的界面
 
-## 📝 许可证
-
-[添加你的许可证信息]
 
 ## 🤝 贡献
 
 欢迎提交 Issue 和 Pull Request！
 
 ---
+兄弟们，我是完全的新人，多多包涵，我会更新项目。
 
 *这个项目由 AI 辅助制作*
