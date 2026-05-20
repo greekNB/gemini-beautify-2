@@ -9,6 +9,7 @@
    5. 输入框 & 横线修复
    6. Deep Research 面板
    7. 代码块 & 细节
+   8. Gemini 新版修复
    ============================================= */
 
 
@@ -41,6 +42,7 @@
   .mat-drawer-content,
   .mat-sidenav-content,
   chat-window-content,
+  chat-window,
   [class*="chat-window-content"],
   [class*="chat-history-scroll-container"],
   div[id="chat-history"],
@@ -48,7 +50,11 @@
   infinite-scroller.chat-history,
   [class*="chat-history"][class*="immersives"],
   [class*="immersive"],
-  [class*="immersives"] {
+  [class*="immersives"],
+  /* 新版 Gemini 外层容器 */
+  [class*="la-canvas"],
+  [class*="content-container"],
+  bard-sidenav-content > div {
     background: transparent !important;
     background-color: transparent !important;
   }
@@ -110,27 +116,17 @@
   /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      5. 输入框 & 横线修复
      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  /* 输入框边框保留 */
-  .ql-container,
-  rich-textarea,
-  [class*="input-area"],
-  [class*="input-container"] {
-    border-color: rgba(255, 255, 255, 0.15) !important;
-  }
-  
-  /* 消除输入区横线 */
+  /* 消除输入区横线（不动 input-container 本身） */
   [class*="input-area-container"],
   [class*="input-footer"],
   [class*="footer-container"],
   [class*="prompt-wrapper"],
   [class*="input-wrapper"],
-  [class*="bottom"],
-  [class*="footer"],
-  [class*="bottom-bar"] {
+  [class*="bottom-bar"],
+  [class*="footer"] {
     border: none !important;
     border-top: none !important;
     box-shadow: none !important;
-    background: transparent !important;
   }
   
   [class*="input"]::before,
@@ -167,7 +163,7 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
   }
   
-  /* 内容容器透明（让外层深色透出来） */
+  /* 内容容器透明 */
   structured-content-container,
   structured-content-container .container,
   structured-content-container > div,
@@ -216,4 +212,23 @@
   }
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.35);
+  }
+  
+  
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     8. Gemini 新版修复
+     只透明聊天内容区，完全不碰 input-container
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  
+  /* 新版 chat-window 直接透明 */
+  chat-window {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+  
+  /* 新版包裹聊天内容的 div（ulreadyparent / children-ready） */
+  div[data-node-type="input-area"],
+  [class*="children-ready"] {
+    background: transparent !important;
+    background-color: transparent !important;
   }

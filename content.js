@@ -121,3 +121,32 @@ if (document.body) {
     observer.observe(document.body, { childList: true, subtree: false });
   });
 }
+
+// ── 保护侧栏响应式行为：不干涉 Gemini 的 transform ──
+function protectSidenavTransform() {
+  const sidenav = document.querySelector('mat-sidenav, bard-sidenav, .mat-drawer');
+  if (!sidenav) return;
+
+  // 用 MutationObserver 监听 style 变化，只保留 transform
+  const sidenavObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'style') {
+        // 如果 Gemini 设置了 transform（隐藏动作），不要覆盖它
+        const transform = sidenav.style.transform;
+        if (transform && transform.includes('translateX')) {
+          // Gemini 在控制侧栏，让它自己管
+          sidenav.style.removeProperty('visibility');
+        }
+      }
+    });
+  });
+
+  sidenavObserver.observe(sidenav, { attributes: true, attributeFilter: ['style'] });
+}
+
+// 页面加载后执行
+if (document.readyState === 'complete') {
+  protectSidenavTransform();
+} else {
+  window.addEventListener('load', protectSidenavTransform);
+}

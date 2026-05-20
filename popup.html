@@ -28,48 +28,6 @@
       margin-bottom: 16px;
     }
 
-    /* 预设背景网格 */
-    .presets-label {
-      font-size: 12px;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 8px;
-    }
-
-    .presets {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .preset-btn {
-      width: 100%;
-      aspect-ratio: 16/9;
-      border-radius: 8px;
-      border: 2px solid transparent;
-      cursor: pointer;
-      background-size: cover;
-      background-position: center;
-      transition: border-color 0.2s, transform 0.15s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .preset-btn:hover { transform: scale(1.04); }
-
-    .preset-btn.active {
-      border-color: #60a5fa;
-    }
-
-    .preset-btn span {
-      position: absolute;
-      bottom: 3px;
-      left: 0; right: 0;
-      text-align: center;
-      font-size: 10px;
-      color: #fff;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-    }
 
     /* 分割线 */
     .divider {
@@ -213,9 +171,6 @@
   <!-- 当前背景预览 -->
   <div id="preview">暂无背景</div>
 
-  <!-- 预设背景 -->
-  <p class="presets-label">预设背景</p>
-  <div class="presets" id="presets"></div>
 
   <hr class="divider">
 
